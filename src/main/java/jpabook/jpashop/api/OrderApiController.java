@@ -45,6 +45,19 @@ public class OrderApiController {
         return result;
     }
 
+    /**
+     * V3: 엔티티를 조회해서 DTO로 변환(fetch join 사용O)
+     */
+    @GetMapping("/api/v3/orders")
+    public List<OrderDto> ordersV3() {
+        List<Order> orders = orderRepository.findAllWithItem();
+        List<OrderDto> result = orders.stream()
+                .map(o -> new OrderDto(o))
+                .collect(Collectors.toList());
+
+        return result;
+    }
+
     @Data
     static class OrderDto {
         private Long orderId;
